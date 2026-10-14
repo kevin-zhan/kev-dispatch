@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+# 派单数据含私人对话，永远不进仓库
+data/
+*.jsonl
+!results/*.jsonl
+*.sqlite
