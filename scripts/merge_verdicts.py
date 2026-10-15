@@ -9,6 +9,9 @@ usage: merge_verdicts.py DIR   (DIR holds data/ and adjudicate/)
 """
 import collections, glob, json, os, sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from export_kev import phrases_en  # batches were cut before the supplement phrases were translated
+
 root = sys.argv[1]
 verdicts = []
 for b in sorted(glob.glob(f"{root}/adjudicate/batch-*.jsonl")):
@@ -17,7 +20,7 @@ for b in sorted(glob.glob(f"{root}/adjudicate/batch-*.jsonl")):
     assert len(bl) == len(vl), b
     for x, y in zip(bl, vl):
         assert x["id"] == y["id"] and y["label"] in x["options"], (b, x["id"])
-        verdicts.append((x["id"], x["state"]["message"], y))
+        verdicts.append((x["id"], " ".join(phrases_en(x["state"]["message"]).split()), y))
 by_case = collections.defaultdict(list)
 for tid, msg, y in verdicts:
     by_case[(tid, msg)].append(y)
@@ -29,7 +32,7 @@ for split in ("train", "calibration", "development", "test"):
         for r in rows:
             q, m = r["questions"]["route"], r["_meta"]
             m["dispatcher_label"] = q["label"]
-            hits = by_case.get((m["task_id"], r["state"]["message"]))
+            hits = by_case.get((m["task_id"], " ".join(r["state"]["message"].split())))
             if hits:
                 y = hits.pop(0)
                 who = "dispatcher" if y["label"] == q["label"] else "jev" if y["label"] == m["jev_choice"] else "other"

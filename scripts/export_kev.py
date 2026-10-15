@@ -28,6 +28,14 @@ INSTRUCTIONS = {
     ],
 }
 STEER = {"planning", "waiting", "queued", "running"}
+# Text the control plane joins into a task's stored words (a7f37ce moved these to English too); flattened by clip().
+PHRASES = (("本任务此前的问题：", "This task's earlier question: "), ("用户补充：", "User supplement: "))
+
+
+def phrases_en(text):
+    for zh, en in PHRASES:
+        text = text.replace(zh, en)
+    return text
 
 
 def ordinal(n):
@@ -103,11 +111,11 @@ def load(db):
             for k, v in crit.items():
                 if k == "NEW":
                     criteria["NEW"] = NEW_DESC; continue
-                d, status = (v, None) if english else desc_en(v)
+                d, status = (v, None) if english else desc_en(phrases_en(v))
                 key = k if v2 else f"{'steer' if status in STEER else 'resume'}:{k}"
                 rename[k] = key
                 criteria[key] = d
-            timeline = ctx["timeline"] if english else timeline_en(ctx["timeline"])
+            timeline = ctx["timeline"] if english else phrases_en(timeline_en(ctx["timeline"]))
         except ValueError as e:
             skipped["unparsed:" + str(e)[:30]] += 1; continue
         if v2:
@@ -124,8 +132,9 @@ def load(db):
             skipped["gold_not_in_options"] += 1; continue
         sup = con.execute("SELECT input_text FROM tasks WHERE merged_into=? AND status='merged' AND created_at<=? ORDER BY created_at",
                           (r["task_id"], jev["at"])).fetchall()
-        sep = "\n\nUser supplement: " if english else "\n\n用户补充："
-        message = sep.join([r["input_text"], *[s[0] for s in sup]]) if sup else r["input_text"]
+        message = "\n\nUser supplement: ".join([r["input_text"], *[s[0] for s in sup]]) if sup else r["input_text"]
+        if not english:
+            message = phrases_en(message)
         state = {"now": datetime.fromtimestamp(r["task_at"] / 1000, timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
                  "main_session_timeline": timeline, "message": clip(message, 2000)}
         rows.append({"state": state, "questions": {"route": {"type": "choice", "instructions": INSTRUCTIONS, "criteria": criteria, "label": label}},
