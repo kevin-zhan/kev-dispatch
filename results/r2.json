@@ -1,0 +1,170 @@
+{
+ "name": "r2",
+ "temperature": 2.0705298476827547,
+ "regression_public_decision_v7": {
+  "n": 443,
+  "nll": 0.7495740313861334,
+  "acc": 0.8510158013544018,
+  "ece": 0.10922202793687835,
+  "brier": 0.245254201367619,
+  "mean_conf": 0.9533863864838118,
+  "confident_error_rate": 0.0744920993227991,
+  "coverage_at_0_9": 0.8532731376975169,
+  "accuracy_at_0_9": 0.9126984126984127,
+  "coverage_at_5pct_error": 0.7539503386004515,
+  "coverage_at_1pct_error": 0.4762979683972912,
+  "aurc": 0.03531090997959993,
+  "error_rate_at_0_9": 0.0873015873015873,
+  "confidence_bias": 0.10237058512941,
+  "top_bins": {
+   "0.9": {
+    "n": 378,
+    "errors": 33,
+    "error_rate": 0.0873015873015873
+   },
+   "0.95": {
+    "n": 368,
+    "errors": 29,
+    "error_rate": 0.07880434782608696
+   },
+   "0.99": {
+    "n": 334,
+    "errors": 16,
+    "error_rate": 0.04790419161676647
+   }
+  },
+  "selective": {
+   "0.5": {
+    "coverage": 0.5011286681715575,
+    "accuracy": 0.9864864864864865,
+    "confidence_cutoff": 0.9999820151096802
+   },
+   "0.8": {
+    "coverage": 0.801354401805869,
+    "accuracy": 0.9295774647887324,
+    "confidence_cutoff": 0.9752855250068893
+   }
+  },
+  "score_mae": 0.4879889103795332,
+  "ranked_probability_score": 0.09667247783957043
+ },
+ "development.adj": {
+  "n": 130,
+  "acc_adjudicated": 0.8385,
+  "acc_dispatcher": 0.8231,
+  "jev_acc_adjudicated": 0.8769,
+  "jev_acc_dispatcher": 0.8538,
+  "raw": {
+   "n": 130,
+   "nll": 0.6644700724946703,
+   "acc": 0.8384615384615385,
+   "ece": 0.12227981961612089,
+   "brier": 0.260797927493478,
+   "mean_conf": 0.942196332771218,
+   "confident_error_rate": 0.07692307692307693,
+   "coverage_at_0_9": 0.8307692307692308,
+   "accuracy_at_0_9": 0.9074074074074074,
+   "coverage_at_5pct_error": 0.7076923076923077,
+   "coverage_at_1pct_error": 0.3769230769230769,
+   "aurc": 0.04517418751177798,
+   "error_rate_at_0_9": 0.09259259259259259,
+   "confidence_bias": 0.10373479430967947,
+   "top_bins": {
+    "0.9": {
+     "n": 108,
+     "errors": 10,
+     "error_rate": 0.09259259259259259
+    },
+    "0.95": {
+     "n": 101,
+     "errors": 6,
+     "error_rate": 0.0594059405940594
+    },
+    "0.99": {
+     "n": 95,
+     "errors": 6,
+     "error_rate": 0.06315789473684211
+    }
+   },
+   "selective": {
+    "0.5": {
+     "coverage": 0.5,
+     "accuracy": 0.9538461538461539,
+     "confidence_cutoff": 0.999752078424336
+    },
+    "0.8": {
+     "coverage": 0.8,
+     "accuracy": 0.9326923076923077,
+     "confidence_cutoff": 0.9268284380282771
+    }
+   }
+  },
+  "calibrated": {
+   "n": 130,
+   "nll": 0.4617844135101792,
+   "acc": 0.8384615384615385,
+   "ece": 0.06266530859397712,
+   "brier": 0.23199966738046046,
+   "mean_conf": 0.8656535802632079,
+   "confident_error_rate": 0.03076923076923077,
+   "coverage_at_0_9": 0.6230769230769231,
+   "accuracy_at_0_9": 0.9506172839506173,
+   "coverage_at_5pct_error": 0.6846153846153846,
+   "coverage_at_1pct_error": 0.3769230769230769,
+   "aurc": 0.04640665427258753,
+   "error_rate_at_0_9": 0.04938271604938271,
+   "confidence_bias": 0.027192041801669453,
+   "top_bins": {
+    "0.9": {
+     "n": 81,
+     "errors": 4,
+     "error_rate": 0.04938271604938271
+    },
+    "0.95": {
+     "n": 69,
+     "errors": 4,
+     "error_rate": 0.057971014492753624
+    },
+    "0.99": {
+     "n": 39,
+     "errors": 0,
+     "error_rate": 0.0
+    }
+   },
+   "selective": {
+    "0.5": {
+     "coverage": 0.5,
+     "accuracy": 0.9538461538461539,
+     "confidence_cutoff": 0.9641573995706492
+    },
+    "0.8": {
+     "coverage": 0.8,
+     "accuracy": 0.9134615384615384,
+     "confidence_cutoff": 0.7131681540954348
+    }
+   }
+  },
+  "acc_by_label_kind": {
+   "NEW": 0.9074,
+   "resume": 0.7576,
+   "steer": 1.0
+  }
+ },
+ "train_args": {
+  "cmd": "train",
+  "name": "r2",
+  "data": "/content/data",
+  "train": "train.adj.jsonl",
+  "init_from": "jaredpalmer/kev-4b",
+  "weights_dtype": "",
+  "max_state": 6144,
+  "epochs": 2,
+  "batch": 1,
+  "accum": 8,
+  "seed": 0,
+  "replay": 1000,
+  "regression": 1,
+  "lr": 2e-05,
+  "fn": "<function train at 0x782a242a8e00>"
+ }
+}
